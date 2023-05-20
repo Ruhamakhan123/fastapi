@@ -1,5 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+
 from pydantic import BaseModel
 import numpy as np
 
@@ -7,6 +9,28 @@ import pickle
 import sklearn
 from BankNote import BankNote
 app = FastAPI()
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+html = f"""
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>FastAPI on Vercel</title>
+        <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
+    </head>
+    <body>
+        <div class="bg-gray-200 p-4 rounded-lg shadow-lg">
+            <h1>Hello from FastAPI</h1>
+            <ul>
+                <li><a href="/docs">/docs</a></li>
+                <li><a href="/redoc">/redoc</a></li>
+            </ul>
+            <p>Powered by <a href="https://vercel.com" target="_blank">Vercel</a></p>
+        </div>
+    </body>
+</html>
+"""
 
 
 pickle_in = open('classifier.pkl', 'rb')
